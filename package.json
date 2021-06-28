@@ -1,0 +1,26 @@
+{
+  "name": "Sixxer",
+  "version": "1.0.0",
+  "description": "A sports information and news bot for discord buit in vanilla JS.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/bot.js",
+    "dev": "nodemon ./src/bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PranavMurali/Sixxer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PranavMurali/Sixxer/issues"
+  },
+  "homepage": "https://github.com/PranavMurali/Sixxer#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^10.0.0"
+  }
+}
