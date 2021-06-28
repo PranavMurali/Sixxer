@@ -28,27 +28,28 @@ client.on('message', (message)=>{
         .split(/\s+/); //space regex
         console.log(CMD_NAME);
         console.log(args)
-
-        if(CMD_NAME=="kick"){
-            if(args.length==0) return message.reply("Please provide an id.");
-            if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply("you dont have permission");
-            const member = message.guild.members.cache.get(args[0]);
-            if(member){
-                member
-                .kick()
-                .then((member)=>message.channel.send(`${member} was removed`))
+        switch(CMD_NAME){
+            case "kick":
+                if(args.length==0) return message.reply("Please provide an id.");
+                if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply("you dont have permission");
+                const member = message.guild.members.cache.get(args[0]);
+                if(member){
+                    member
+                    .kick()
+                    .then((member)=>message.channel.send(`${member} was removed`))
+                    .catch((err)=>message.channel.send("no permission"));
+                }
+                else{
+                    message.channel.send("Member not exists");
+                }
+            
+            case "ann":
+                const msg=args.join(' ');
+                webhookClient.send(msg)
                 .catch((err)=>message.channel.send("no permission"));
-
-            }
-            else{
-                message.channel.send("Member not exists");
-            }
+            
         }
-        else if (CMD_NAME=="ann"){
-            const msg=args.join(' ');
-            webhookClient.send(msg)
-            .catch((err)=>message.channel.send("no permission"));
-        }
+        
     }
 });
 
