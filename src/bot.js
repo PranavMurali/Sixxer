@@ -5,10 +5,9 @@ const client = new Client({
     partials:['MESSAGE','REACTION']
 });
 const PREFIX="..";
-const webhookClient= new WebhookClient(
-    process.env.WEBHOOK_ID,
-    process.env.WEBHOOOK_TOKEN,
-);
+const Discord = require('discord.js');
+const https = require('https');
+const { url } = require('inspector');
 
 client.on('ready', ()=> {
     console.log(`${client.user.tag} has logged in.`);
@@ -43,13 +42,62 @@ client.on('message', (message)=>{
                     message.channel.send("Member not exists");
                 }
             
-            case "ann":
-                const msg=args.join(' ');
-                webhookClient.send(msg)
-                .catch((err)=>message.channel.send("no permission"));
-            
+            case "news":
+                https.get('https://newsapi.org/v2/top-headlines?country=in&q=cricket&category=sports&apiKey=5c11ebffeec94be1a53221296fb72097', (resp) => {
+                    let data = '';
+
+                    // A chunk of data has been received.
+                    resp.on('data', (chunk) => {
+                        data += chunk;
+                    });
+
+                    // The whole response has been received. Print out the result.
+                    resp.on('end', () => {
+                        N=JSON.parse(data).articles.length;
+                        for (let i = 0; i < 1; i++) {
+                            title=JSON.parse(data).articles[i].title;
+                            urls=JSON.parse(data).articles[i].url;
+                            description=JSON.parse(data).articles[i].description;
+                            content=JSON.parse(data).articles[i].content;
+                            const exampleEmbed = new Discord.MessageEmbed()
+                                .setColor('#0099ff')
+                                .setTitle(title)
+                                .setURL(urls)
+                                .setAuthor('Cricket News', 'https://i.imgur.com/wSTFkRM.png', 'https://discord.js.org')
+                                .setDescription(description)
+                                .setThumbnail('https://i.imgur.com/wSTFkRM.png')
+                                .addField('Inline field title', 'Some value here', true)
+                                .setImage('https://i.imgur.com/wSTFkRM.png')
+                                .setTimestamp()
+                                .setFooter('Some footer text here', 'https://i.imgur.com/wSTFkRM.png');
+                            message.channel.send(exampleEmbed);
+                            message.react('👍').then(() => message.react('👎'));
+
+                            const filter = (reaction, user) => {
+                                return ['👍', '👎'].includes(reaction.emoji.name) && user.id === message.author.id;
+                            };
+
+                            message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
+                                .then(collected => {
+                                    const reaction = collected.first();
+                                    if (reaction.emoji.name === '👍') {
+                                        message.reply('you reacted with a thumbs up.');
+                                    } else {
+                                        message.reply('you reacted with a thumbs down.');
+                                    }
+                                })
+                                .catch(collected => {
+                                    message.reply('News Navigation closed.');
+                                });
+                        }
+                    });
+
+                })
+                .on("error", (err) => {
+                        console.log("Error: " + err.message);
+                });
+                
         }
-        
     }
 });
 
@@ -67,4 +115,5 @@ client.on("messageReactionAdd",(reaction, user,message)=> {
         }
     }
 });
+//process.env.TOKEN
 client.login(process.env.BOT_TOKEN)
