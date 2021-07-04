@@ -34,8 +34,6 @@ client.on('message', (message)=>{
             case "del":
                 message.channel.bulkDelete(args[0], true)
                 .catch(console.error);
-                message.reply(`**Successfully** Deleted ***${args[0]}*** Messages.`)
-                console.log(args[0])
                 break;
             case "news":
                 let j=0;
@@ -75,7 +73,8 @@ client.on('message', (message)=>{
                         const embeds= new Discord.MessageEmbed()
                         .setColor('#0099ff')
                         .setTimestamp()
-                        .setDescription("Asd")
+                        .setTitle("News from Sixxer..")
+                        .setDescription("Latest News!")
 
                         let next = new disbut.MessageButton()
                         .setStyle('red')
@@ -89,9 +88,16 @@ client.on('message', (message)=>{
                         .setID('2')
                         .setEmoji("👈");
 
+                        let end = new disbut.MessageButton()
+                        .setStyle('blurple')
+                        .setLabel('End News') 
+                        .setID('3')
+                        .setEmoji("🛑");
+
                         const btns= new disbut.MessageActionRow()
                         .addComponent(next)
                         .addComponent(prev)
+                        .addComponent(end)
                         message.channel.send(embeds,btns)
                         client.on('clickButton', async (button) => {
                             if(button.id=="1"){
@@ -105,6 +111,9 @@ client.on('message', (message)=>{
                                 j--;
                                 oldem=gets(j);
                                 message.channel.send(oldem, btns)
+                            }
+                            if(button.id=="3"){
+                                message.channel.bulkDelete(1, true)
                             }
                         });
         }
