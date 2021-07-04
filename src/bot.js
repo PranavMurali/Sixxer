@@ -7,6 +7,8 @@ const client = new Client({
 const PREFIX="..";
 const Discord = require('discord.js');
 const https = require('https');
+const disbut = require('discord-buttons');
+disbut(client);
 const { url } = require('inspector');
 const { title } = require("process");
 
@@ -29,31 +31,26 @@ client.on('message', (message)=>{
         console.log(CMD_NAME);
         console.log(args)
         switch(CMD_NAME){
-            case "kick":
-                if(args.length==0) return message.reply("Please provide an id.");
-                if(!message.member.hasPermission('KICK_MEMBERS')) return message.reply("you dont have permission");
-                const member = message.guild.members.cache.get(args[0]);
-                if(member){
-                    member
-                    .kick()
-                    .then((member)=>message.channel.send(`${member} was removed`))
-                    .catch((err)=>message.channel.send("no permission"));
-                }
-                else{
-                    message.channel.send("Member not exists");
-                }
-            
+            case "del":
+                message.channel.bulkDelete(args[0], true)
+                .catch(console.error);
+                message.reply(`**Successfully** Deleted ***${args[0]}*** Messages.`)
+                console.log(args[0])
+                break;
             case "news":
-                https.get('https://newsapi.org/v2/top-headlines?country=in&q=cricket&category=sports&apiKey=5c11ebffeec94be1a53221296fb72097', (resp) => {
+                let j=0;
+                titles=[];
+                urlss=[];
+                descriptions=[];
+                contents=[];
+                function gets(j){
+                    https.get('https://newsapi.org/v2/top-headlines?country=in&q=cricket&category=sports&apiKey=5c11ebffeec94be1a53221296fb72097', (resp) => {
                     let data = '';
                     resp.on('data', (chunk) => {
                         data += chunk;
                     });
                     resp.on('end', () => {
-                        titles=[];
-                        urlss=[];
-                        descriptions=[];
-                        contents=[];
+                        
                         N=JSON.parse(data).articles.length;
                         for (let i = 0; i < 10; i++) {
                             let title=JSON.parse(data).articles[i].title;
@@ -65,38 +62,56 @@ client.on('message', (message)=>{
                             descriptions[i]=description;
                             contents[i]=content;
                         }
-                        let i=0;
-                        stert: while(i>=0){
-                            const exampleEmbed = new Discord.MessageEmbed()
-                                .setColor('#0099ff')
-                                .setTitle(titles[i])
-                                .setURL(urlss[i])
-                                .setAuthor('Cricket News', 'https://i.imgur.com/wSTFkRM.png', 'https://discord.js.org')
-                                .setDescription(descriptions[i])
-                                .setThumbnail('https://i.imgur.com/wSTFkRM.png')
-                                .addField('Inline field title', 'Some value here', true)
-                                .setImage('https://i.imgur.com/wSTFkRM.png')
-                                .setTimestamp()
-                                .setFooter('Some footer text here', 'https://i.imgur.com/wSTFkRM.png');
-                            message.channel.send(exampleEmbed)
-                            .then(function (message) {
-                                message.react("👍")
-                                message.react("👎")
-                            }).catch(function() {
-                                //Something
-                            });
-                            i=-1;
-                        }
-                        console.log("asd");
                     });
-
-                })
-                .on("error", (err) => {
-                        console.log("Error: " + err.message);
                 });
-                
+                const exampleEmbed = new Discord.MessageEmbed()
+                            .setColor('#0099ff')
+                            .setTitle(titles[j])
+                            .setURL(urlss[j])
+                            .setDescription(descriptions[j])
+                            .setTimestamp()
+                    return exampleEmbed;
+                }
+                        const embeds= new Discord.MessageEmbed()
+                        .setColor('#0099ff')
+                        .setTimestamp()
+                        .setDescription("Asd")
+
+                        let next = new disbut.MessageButton()
+                        .setStyle('red')
+                        .setLabel('Next Article') 
+                        .setID('1')
+                        .setEmoji("👉");
+
+                        let prev = new disbut.MessageButton()
+                        .setStyle('green')
+                        .setLabel('Prev Article') 
+                        .setID('2')
+                        .setEmoji("👈");
+
+                        const btns= new disbut.MessageActionRow()
+                        .addComponent(next)
+                        .addComponent(prev)
+                        message.channel.send(embeds,btns)
+                        client.on('clickButton', async (button) => {
+                            if(button.id=="1"){
+                                message.channel.bulkDelete(1, true)
+                                j++;
+                                newsem=gets(j);
+                                message.channel.send(newsem,btns)
+                            }
+                            if(button.id=="2"){
+                                message.channel.bulkDelete(1, true)
+                                j--;
+                                oldem=gets(j);
+                                message.channel.send(oldem, btns)
+                            }
+                        });
         }
     }
+    process.on('unhandledRejection', error => {
+        console.error('Unhandled promise rejection:', error);
+    });
 });
 
 //process.env.TOKEN
