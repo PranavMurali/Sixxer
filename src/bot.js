@@ -73,6 +73,9 @@ client.on('message', (message)=>{
                             .setURL(urlss[j])
                             .setDescription(descriptions[j])
                             .setTimestamp()
+                            .addFields(
+		                        { name: 'Content', value: contents[j] }
+                            )
                             .setImage(imgs[j])
                     return exampleEmbed;
                 }
@@ -85,19 +88,19 @@ client.on('message', (message)=>{
                         let next = new disbut.MessageButton()
                         .setStyle('red')
                         .setLabel('Next Article') 
-                        .setID('1')
+                        .setID(args[0]+'1')
                         .setEmoji("👉");
 
                         let prev = new disbut.MessageButton()
                         .setStyle('green')
                         .setLabel('Prev Article') 
-                        .setID('2')
+                        .setID(args[0]+'2')
                         .setEmoji("👈");
 
                         let end = new disbut.MessageButton()
                         .setStyle('blurple')
                         .setLabel('End News') 
-                        .setID('3')
+                        .setID(args[0]+'3')
                         .setEmoji("🛑");
 
                         const btns= new disbut.MessageActionRow()
@@ -106,7 +109,7 @@ client.on('message', (message)=>{
                         .addComponent(end)
                         message.channel.send(embeds,btns)
                         client.on('clickButton', async (button) => {
-                            if(button.id=="1"){
+                            if(button.id==args[0]+"1"){
                                 message.channel.bulkDelete(1, true)
                                 .catch(console.error())
                                 j++;
@@ -117,7 +120,7 @@ client.on('message', (message)=>{
                                 }
                                 message.channel.send(newsem,btns)
                             }
-                            if(button.id=="2"){
+                            if(button.id==args[0]+"2"){
                                 message.channel.bulkDelete(1, true)
                                 .catch(console.error())
                                 j--;
@@ -128,7 +131,7 @@ client.on('message', (message)=>{
                                 oldem=gets(j,args[0]);
                                 message.channel.send(oldem, btns)
                             }
-                            if(button.id=="3"){
+                            if(button.id==args[0]+"3"){
                                 message.channel.bulkDelete(1, true)
                                 .catch(console.error())
                             }
