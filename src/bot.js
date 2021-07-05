@@ -50,7 +50,7 @@ client.on('message', (message)=>{
                     resp.on('end', () => {
                         
                         N=JSON.parse(data).articles.length;
-                        for (let i = 0; i < 10; i++) {
+                        for (let i = 0; i < N; i++) {
                             let title=JSON.parse(data).articles[i].title;
                             let urls=JSON.parse(data).articles[i].url;
                             let description=JSON.parse(data).articles[i].description;
@@ -104,6 +104,11 @@ client.on('message', (message)=>{
                                 message.channel.bulkDelete(1, true)
                                 j++;
                                 newsem=gets(j);
+                                console.log(newsem);
+                                if(newsem.title=="undefined"){
+                                    newsem.title="Buffer Section";
+                                    newsem.description="Move onto the next article";
+                                }
                                 message.channel.send(newsem,btns)
                             }
                             if(button.id=="2"){
