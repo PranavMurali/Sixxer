@@ -36,13 +36,16 @@ client.on('message', (message)=>{
                 .catch(console.error);
                 break;
             case "news":
-                let j=0;
-                titles=[];
-                urlss=[];
-                descriptions=[];
-                contents=[];
-                function gets(j){
-                    https.get('https://newsapi.org/v2/top-headlines?country=in&q=cricket&category=sports&apiKey=5c11ebffeec94be1a53221296fb72097', (resp) => {
+                let j=-2;
+                let titles=[];
+                let urlss=[];
+                let descriptions=[];
+                let contents=[];
+                let imgs=[];
+                let N=0;
+                function gets(j, sport){
+                    var sports = String.prototype.toLowerCase.apply(sport);
+                    https.get('https://newsapi.org/v2/top-headlines?country=in&q='+sports+'&category=sports&apiKey=5c11ebffeec94be1a53221296fb72097', (resp) => {
                     let data = '';
                     resp.on('data', (chunk) => {
                         data += chunk;
@@ -55,10 +58,12 @@ client.on('message', (message)=>{
                             let urls=JSON.parse(data).articles[i].url;
                             let description=JSON.parse(data).articles[i].description;
                             let content=JSON.parse(data).articles[i].content;
+                            let img=JSON.parse(data).articles[i].urlToImage
                             titles[i]=title;
                             urlss[i]=urls;
                             descriptions[i]=description;
                             contents[i]=content;
+                            imgs[i]=img;
                         }
                     });
                 });
@@ -68,6 +73,7 @@ client.on('message', (message)=>{
                             .setURL(urlss[j])
                             .setDescription(descriptions[j])
                             .setTimestamp()
+                            .setImage(imgs[j])
                     return exampleEmbed;
                 }
                         const embeds= new Discord.MessageEmbed()
@@ -102,9 +108,9 @@ client.on('message', (message)=>{
                         client.on('clickButton', async (button) => {
                             if(button.id=="1"){
                                 message.channel.bulkDelete(1, true)
+                                .catch(console.error())
                                 j++;
-                                newsem=gets(j);
-                                console.log(newsem);
+                                newsem=gets(j,args[0]);
                                 if(newsem.title=="undefined"){
                                     newsem.title="Buffer Section";
                                     newsem.description="Move onto the next article";
@@ -113,12 +119,18 @@ client.on('message', (message)=>{
                             }
                             if(button.id=="2"){
                                 message.channel.bulkDelete(1, true)
+                                .catch(console.error())
                                 j--;
-                                oldem=gets(j);
+                                if(newsem.title=="undefined"){
+                                    newsem.title="Buffer Section";
+                                    newsem.description="Move onto the next article";
+                                }
+                                oldem=gets(j,args[0]);
                                 message.channel.send(oldem, btns)
                             }
                             if(button.id=="3"){
                                 message.channel.bulkDelete(1, true)
+                                .catch(console.error())
                             }
                         });
         }
