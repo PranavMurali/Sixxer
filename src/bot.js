@@ -38,18 +38,14 @@ client.on('message', (message)=>{
             case "info":
                 const infoEmbed = new Discord.MessageEmbed()
                         .setColor('#0099ff')
-                        .setTitle('Information')
-                        .setURL('https://discord.js.org/')
+                        .setTitle('Information on how to use Sixxer')
                         .setAuthor('Sixxer', 'https://i.imgur.com/B7MMnUn.gif')
-                        .setDescription('Some description here')
+                        .setDescription("The bot's prefix is .. and this can be used with commands like news, info, del.")
                         .setThumbnail('https://i.imgur.com/wSTFkRM.png')
                         .addFields(
-                            { name: 'Regular field title', value: 'Some value here' },
-                            { name: '\u200B', value: '\u200B' },
-                            { name: 'Inline field title', value: 'Some value here', inline: true },
-                            { name: 'Inline field title', value: 'Some value here', inline: true },
+                            { name: '..news cricket', value: 'News command used to get cricket news, but you could use the name of any sport you want.'},
+                            { name: '..del 20', value: 'used to delete 20 messages.' },
                         )
-                        .addField('Inline field title', 'Some value here', true)
                         .setImage('https://i.imgur.com/wSTFkRM.png')
                         .setTimestamp()
                         .setFooter('Some footer text here', 'https://i.imgur.com/wSTFkRM.png');
