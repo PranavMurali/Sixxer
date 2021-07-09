@@ -35,6 +35,26 @@ client.on('message', (message)=>{
                 message.channel.bulkDelete(args[0], true)
                 .catch(console.error);
                 break;
+            case "info":
+                const infoEmbed = new Discord.MessageEmbed()
+                        .setColor('#0099ff')
+                        .setTitle('Information')
+                        .setURL('https://discord.js.org/')
+                        .setAuthor('Sixxer', 'https://i.imgur.com/B7MMnUn.gif')
+                        .setDescription('Some description here')
+                        .setThumbnail('https://i.imgur.com/wSTFkRM.png')
+                        .addFields(
+                            { name: 'Regular field title', value: 'Some value here' },
+                            { name: '\u200B', value: '\u200B' },
+                            { name: 'Inline field title', value: 'Some value here', inline: true },
+                            { name: 'Inline field title', value: 'Some value here', inline: true },
+                        )
+                        .addField('Inline field title', 'Some value here', true)
+                        .setImage('https://i.imgur.com/wSTFkRM.png')
+                        .setTimestamp()
+                        .setFooter('Some footer text here', 'https://i.imgur.com/wSTFkRM.png');
+                message.channel.send(infoEmbed)
+                break;
             case "news":
                 let j=-2;
                 let titles=[];
