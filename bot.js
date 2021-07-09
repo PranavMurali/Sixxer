@@ -12,17 +12,9 @@ disbut(client);
 
 client.on('ready', ()=> {
     console.log(`${client.user.tag} has logged in.`);
-    client.user.setActivity('discord.js', { type: 'WATCHING' })
-    .then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
-    .catch(console.error);
-
-client.user.setPresence({ activity: { name: 'with discord.js' }, status: 'playing' })
-    .then(console.log)
-    .catch(console.error);
-
-client.user.setStatus('status')
-    .then(console.log)
-    .catch(console.error);
+    client.user.setStatus('status')
+        .then(console.log)
+        .catch(console.error);
 })
 
 
