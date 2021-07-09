@@ -155,7 +155,7 @@ client.on('message', (message)=>{
         }
     }
     process.on('unhandledRejection', error => {
-        console.error('Unhandled promise rejection:', error);
+        console.error('nooo', error);
     });
 });
 
