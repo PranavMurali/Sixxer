@@ -12,9 +12,7 @@ disbut(client);
 
 client.on('ready', ()=> {
     console.log(`${client.user.tag} has logged in.`);
-    client.user.setStatus('status')
-        .then(console.log)
-        .catch(console.error);
+    client.user.setActivity('YouTube', { type: 'WATCHING' });
 })
 
 
