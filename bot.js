@@ -28,11 +28,11 @@ client.on('message', (message)=>{
         .split(/\s+/); //space regex
         var CMD_NAME = String.prototype.toLowerCase.apply(CMD);
         switch(CMD_NAME){
-            case "Del":
+            case "del":
                 message.channel.bulkDelete(parseFloat(args[0])+1, true)
                 .catch(console.error);
                 break;
-            case "Info":
+            case "info":
                 const infoEmbed = new Discord.MessageEmbed()
                         .setColor('#0099ff')
                         .setTitle('Information on how to use Sixxer')
@@ -48,7 +48,7 @@ client.on('message', (message)=>{
                 message.channel.send(infoEmbed)
                 .catch(console.error())
                 break;
-            case "News":
+            case "news":
                 let j=-2;
                 let titles=[];
                 let urlss=[];
