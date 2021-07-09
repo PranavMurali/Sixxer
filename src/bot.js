@@ -48,6 +48,7 @@ client.on('message', (message)=>{
                         .setTimestamp()
                         .setFooter('Some footer text here', 'https://i.imgur.com/wSTFkRM.png');
                 message.channel.send(infoEmbed)
+                .catch(console.error())
                 break;
             case "news":
                 let j=-2;
@@ -121,7 +122,9 @@ client.on('message', (message)=>{
                         .addComponent(next)
                         .addComponent(prev)
                         .addComponent(end)
+
                         message.channel.send(embeds,btns)
+                        .catch(console.error())
                         client.on('clickButton', async (button) => {
                             if(button.id==args[0]+"1"){
                                 message.channel.bulkDelete(1, true)
@@ -133,6 +136,7 @@ client.on('message', (message)=>{
                                     newsem.description="Move onto the next article";
                                 }
                                 message.channel.send(newsem,btns)
+                                .catch(console.error())
                             }
                             if(button.id==args[0]+"2"){
                                 message.channel.bulkDelete(1, true)
@@ -144,6 +148,7 @@ client.on('message', (message)=>{
                                 }
                                 oldem=gets(j,args[0]);
                                 message.channel.send(oldem, btns)
+                                .catch(console.error())
                             }
                             if(button.id==args[0]+"3"){
                                 message.channel.bulkDelete(1, true)
