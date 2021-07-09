@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { Client, WebhookClient } = require('discord.js');
+const { Client} = require('discord.js');
 const client = new Client({
     partials:['MESSAGE','REACTION']
 });
@@ -9,8 +9,6 @@ const Discord = require('discord.js');
 const https = require('https');
 const disbut = require('discord-buttons');
 disbut(client);
-const { url } = require('inspector');
-const { title } = require("process");
 
 client.on('ready', ()=> {
     console.log(`${client.user.tag} has logged in.`);
@@ -61,7 +59,7 @@ client.on('message', (message)=>{
                 let N=0;
                 function gets(j, sport){
                     var sports = String.prototype.toLowerCase.apply(sport);
-                    https.get('https://newsapi.org/v2/top-headlines?country=in&q='+sports+'&category=sports&apiKey=5c11ebffeec94be1a53221296fb72097', (resp) => {
+                    https.get('https://newsapi.org/v2/top-headlines?country=in&q='+sports+'&category=sports&apiKey=5c11ebffeec94be1a53221296fb72097'.catch(console.error()), (resp) => {
                     let data = '';
                     resp.on('data', (chunk) => {
                         data += chunk;
