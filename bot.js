@@ -22,12 +22,11 @@ client.on('message', (message)=>{
         message.channel.send("heyo")//send in channel
     }
     if(message.content.startsWith(PREFIX)){
-        const [CMD_NAME,...args] =message.content
+        const [CMD,...args] =message.content
         .trim()
         .substring(PREFIX.length)
         .split(/\s+/); //space regex
-        console.log(CMD_NAME);
-        console.log(args)
+        var CMD_NAME = String.prototype.toLowerCase.apply(CMD);
         switch(CMD_NAME){
             case "Del":
                 message.channel.bulkDelete(parseFloat(args[0])+1, true)
