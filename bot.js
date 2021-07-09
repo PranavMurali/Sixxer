@@ -29,28 +29,27 @@ client.on('message', (message)=>{
         console.log(CMD_NAME);
         console.log(args)
         switch(CMD_NAME){
-            case "del":
-                message.channel.bulkDelete(args[0], true)
+            case "Del":
+                message.channel.bulkDelete(parseFloat(args[0])+1, true)
                 .catch(console.error);
                 break;
-            case "info":
+            case "Info":
                 const infoEmbed = new Discord.MessageEmbed()
                         .setColor('#0099ff')
                         .setTitle('Information on how to use Sixxer')
-                        .setAuthor('Sixxer', 'https://i.imgur.com/B7MMnUn.gif')
+                        .setAuthor('Sixxer', 'https://img.icons8.com/emoji/48/000000/cricket-game-emoji.png')
                         .setDescription("The bot's prefix is .. and this can be used with commands like news, info, del.")
-                        .setThumbnail('https://i.imgur.com/wSTFkRM.png')
+                        .setThumbnail('https://img.icons8.com/cotton/64/000000/sport-clothes--v2.png')
                         .addFields(
-                            { name: '..news cricket', value: 'News command used to get cricket news, but you could use the name of any sport you want.'},
-                            { name: '..del 20', value: 'used to delete 20 messages.' },
+                            { name: '..News Cricket', value: 'News command used to get cricket news, but you could use the name of any sport you want.'},
+                            { name: '..Del N', value: 'used to delete N messages.' },
                         )
-                        .setImage('https://i.imgur.com/wSTFkRM.png')
                         .setTimestamp()
-                        .setFooter('Some footer text here', 'https://i.imgur.com/wSTFkRM.png');
+                        .setFooter('Have a nice day!', 'https://img.icons8.com/color/48/000000/sport-net.png');
                 message.channel.send(infoEmbed)
                 .catch(console.error())
                 break;
-            case "news":
+            case "News":
                 let j=-2;
                 let titles=[];
                 let urlss=[];
