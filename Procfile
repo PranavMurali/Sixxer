@@ -1,1 +1,1 @@
-worker: node ./src/bot.js --unhandled-rejections=mode
+worker: node ./src/bot.js --unhandled-rejections=none
