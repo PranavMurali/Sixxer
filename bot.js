@@ -12,7 +12,10 @@ disbut(client);
 
 client.on('ready', ()=> {
     console.log(`${client.user.tag} has logged in.`);
-    client.user.setActivity('YouTube', { type: 'WATCHING' });
+    client.user.setActivity("to ..Help", {
+        type: "LISTENING",
+        url: "https://github.com/PranavMurali/Sixxer"
+    });
 })
 
 
