@@ -60,7 +60,7 @@ client.on('message', (message)=>{
                 let N=0;
                 function gets(j, sport){
                     var sports = String.prototype.toLowerCase.apply(sport);
-                    https.get('https://newsapi.org/v2/top-headlines?country=in&q='+sports+'&category=sports&apiKey=5c11ebffeec94be1a53221296fb72097'.catch(console.error()), (resp) => {
+                    https.get('https://newsapi.org/v2/top-headlines?country=in&q='+sports+'&category=sports&apiKey=5c11ebffeec94be1a53221296fb72097', (resp) => {
                     let data = '';
                     resp.on('data', (chunk) => {
                         data += chunk;
