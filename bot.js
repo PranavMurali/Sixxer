@@ -21,11 +21,6 @@ client.on('ready', ()=> {
 
 client.on('message', (message)=>{
     if(message.author.bot) return;
-    console.log(`[${message.author.tag}]: ${message.content}`);
-    if(message.content =="hello"){
-        message.reply("hey there!") //tag reply
-        message.channel.send("heyo")//send in channel
-    }
     if(message.content.startsWith(PREFIX)){
         const [CMD,...args] =message.content
         .trim()
